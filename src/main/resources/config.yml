@@ -1,0 +1,113 @@
+#The config file for CheatTest plugin.
+
+#Dupe Feature
+Dupe:
+  #Toggles dupe command
+  Enable: true
+  #Sets how long players to wait to use dupe command
+  #unit: millisecond
+  Delay: 60000
+
+#TP Feature
+Teleport:
+  #Toggles tp command
+  Enable: true
+  #Sets how long players to wait to use tp command
+  #unit: millisecond
+  Delay: 60000
+  #Sets how far players can teleport
+  #Takes absolute value
+  MaxX: 10000
+  MaxY: 1000
+  MaxZ: 10000
+
+#Mythic Feature
+#Used for implements sth cool
+Mythic:
+  #Toggles Mythic Features
+  Enable: true
+  #Toggles Mythic Command
+  Command: true
+  #Stick of Destruction, click to create explosion
+  #NBT: DESTRUCTION
+  Destruction: true
+  #Bucket of Drinker, click to remove liquids
+  #NBT: DRINKER
+  Drinker: true
+  #Bucket of End Fluid, click to remove all connected liquids
+  #NBT: End Fluid
+  EndFluid:
+    ##DEPRECATED -- no longer work
+    Enable: false
+    #Max search range
+    Max: 500
+
+#Suicide Feature
+Suicide:
+  #Toggles suicide command
+  Enable: true
+
+#Anti Illegible OP Feature
+AntiIOP:
+  #Toggles AntiIOP Checker
+  Enable: true
+  #List of LegibleOP
+  LegibleOP: ["CMCat"]
+  #Should checker gamemode?
+  Gamemode: true
+  #Should checker use punish effects
+  Punish: true
+
+#Anti Shulker Crash Feature
+AntiShulkerCrash:
+  #Toggles checker
+  Enable: true
+
+#Custom Death Message Feature
+DeathMessageModifier:
+  #Toggles modifier
+  Enable: true
+
+#AntiPacketfly Feature
+PacketFlyChecker:
+  #Toggles checker
+  Enable: true
+  MaxDistanceHorizontal: 150.0
+
+#Tab Feature
+Tab:
+  #Toggles Tab displayer
+  Enable: true
+  #Sets the cooldown of tab displayer
+  #Unit: tick
+  RefreshCooldown: 20
+  #Sets tab messages
+  PlayerName: "%player_name%"
+  Header: awa
+  Footer: qwq
+
+#Check and remove/modify illegible items
+IllegibleItemChecker:
+  #Toggles IIC
+  Enable: true
+  #Sets the cooldown of illegible item checker
+  #unit: tick
+  Cooldown: 20
+  #Should IIC modify illegible enchantment levels?
+  Enchantments: true
+
+#Auto set player specific permissions
+AutoPermission:
+  Enable: true
+  Permissions:
+    - cheattest.dupe
+    - cheattest.tp
+    - cheattest.suicide
+
+#Respawn player in a random location
+RandomRespawn:
+  Enable: true
+  #Sets the spread of respawn point
+  #Formula: (Math.random() - 0.5) * Spread
+  SpreadX: 1000
+  SpreadZ: 1000

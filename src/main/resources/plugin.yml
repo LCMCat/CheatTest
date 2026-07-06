@@ -1,0 +1,19 @@
+name: CheatTest
+version: 0.5
+description: A plugin for CheatTest Server.
+author: CMCat
+main: tech.ccat.cheattest.Main
+api-version: 1.12
+commands:
+  dupe:
+    description: Dupe items in main hand
+    usage: /dupe
+  /tp:
+    description: Teleport a player to a specific location.
+    usage: //tp <x> <y> <z>
+  mythic:
+    description: Mythic command.
+    usage: /mythic
+  suicide:
+    description: Suicide.
+    usage: /suicide
