@@ -10,15 +10,14 @@ import tech.ccat.cheattest.player.CPlayer;
 public class TPCommand extends CCommand{
 
 
-    private final Long TPDelay;
-    private final Long TPMaxX;
-    private final Long TPMaxY;
-    private final Long TPMaxZ;
+    private final long TPDelay;
+    private final long TPMaxX;
+    private final long TPMaxY;
+    private final long TPMaxZ;
 
 
     protected TPCommand(Main INSTANCE) {
         super(INSTANCE);
-        config = INSTANCE.getConfigManager();
         TPDelay = config.getTPDelay();
         TPMaxX = config.getTPMaxX();
         TPMaxY = config.getTPMaxY();
@@ -40,7 +39,7 @@ public class TPCommand extends CCommand{
             return true;
         }
         CPlayer cPlayer = INSTANCE.getPlayerManager().getCPlayer(player);
-        Long timePassed = System.currentTimeMillis() - cPlayer.getLastTPMs();
+        long timePassed = System.currentTimeMillis() - cPlayer.getLastTPMs();
         if(timePassed < TPDelay){
             commandSender.sendMessage("§c请等待 " + (TPDelay - timePassed)/1000 + " 秒!");
             return true;

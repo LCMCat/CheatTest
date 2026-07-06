@@ -19,7 +19,7 @@ public class AntiIllegibleOP extends CModule{
         AntiIOPLegibleOP = config.getAntiIOPLegibleOP();
         AntiIOPGamemode = config.isAntiIOPGamemode();
         AntiIOPPunish = config.isAntiIOPPunish();
-        if(config.isAntiIOPEnable()) INSTANCE.getServer().getScheduler().runTaskTimerAsynchronously(INSTANCE, this::runnable, 0, 20);
+        if(config.isAntiIOPEnable()) INSTANCE.getServer().getScheduler().runTaskTimer(INSTANCE, this::runnable, 0, 20);
     }
 
     private void punish(Player player){

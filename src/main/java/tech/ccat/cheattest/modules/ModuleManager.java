@@ -5,17 +5,15 @@ import tech.ccat.cheattest.Main;
 public class ModuleManager {
     private final Main INSTANCE;
 
-    public IllegibleItemChecker illegibleItemChecker;
-    public TabDisplayer tabDisplayer;
-    public AntiIllegibleOP antiIllegibleOP;
-    public DeathMessageModifier deathMessageModifier;
-    public StickOfDestruction stickOfDestruction;
-    public BucketOfDrinker bucketOfDrinker;
-//    public BucketOfEndFluid bucketOfEndFluid;
-    public AntiShulkerCrash antiShulkerCrash;
-    public PacketFlyChecker packetFlyChecker;
-    public AutoPermission autoPermission;
-    public RandomRespawn randomRespawn;
+    private IllegibleItemChecker illegibleItemChecker;
+    private TabDisplayer tabDisplayer;
+    private AntiIllegibleOP antiIllegibleOP;
+    private DeathMessageModifier deathMessageModifier;
+    private MythicItemModule mythicItemModule;
+    private AntiShulkerCrash antiShulkerCrash;
+    private PacketFlyChecker packetFlyChecker;
+    private AutoPermission autoPermission;
+    private RandomRespawn randomRespawn;
 
     public ModuleManager(Main INSTANCE){
         this.INSTANCE = INSTANCE;
@@ -28,9 +26,7 @@ public class ModuleManager {
         tabDisplayer = new TabDisplayer(INSTANCE);
         antiIllegibleOP = new AntiIllegibleOP(INSTANCE);
         deathMessageModifier = new DeathMessageModifier(INSTANCE);
-        stickOfDestruction = new StickOfDestruction(INSTANCE);
-        bucketOfDrinker = new BucketOfDrinker(INSTANCE);
-//        bucketOfEndFluid = new BucketOfEndFluid(INSTANCE);
+        mythicItemModule = new MythicItemModule(INSTANCE);
         antiShulkerCrash = new AntiShulkerCrash(INSTANCE);
         packetFlyChecker = new PacketFlyChecker(INSTANCE);
         autoPermission = new AutoPermission(INSTANCE);

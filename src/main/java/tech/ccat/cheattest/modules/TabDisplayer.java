@@ -35,7 +35,7 @@ public class TabDisplayer extends CModule{
                 updateTablist(player);
                 updateTab(player);
             }
-        }.runTaskTimerAsynchronously(INSTANCE, 0L, TabRefreshCooldown);
+        }.runTaskTimer(INSTANCE, 0L, TabRefreshCooldown);
     }
 
 

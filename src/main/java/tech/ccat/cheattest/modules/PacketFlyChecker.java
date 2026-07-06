@@ -17,11 +17,12 @@ public class PacketFlyChecker extends PacketAdapter
 
     double MaxDistanceHorizontal;
     protected PacketFlyChecker(Main INSTANCE) {
-        super(INSTANCE, PacketType.Play.Client.UPDATE_SIGN);
+        super(INSTANCE, PacketType.Play.Client.POSITION_LOOK);
         this.INSTANCE = INSTANCE;
         config = INSTANCE.getConfigManager();
+        MaxDistanceHorizontal = config.getPacketFlyCheckerMaxDistanceHorizontal();
         this.protocolManager = ProtocolLibrary.getProtocolManager();
-        if(!config.isPacketFlyCheckerEnable()) protocolManager.addPacketListener(this);
+        if(config.isPacketFlyCheckerEnable()) protocolManager.addPacketListener(this);
     }
 
     public void onPacketReceiving(PacketEvent event) {

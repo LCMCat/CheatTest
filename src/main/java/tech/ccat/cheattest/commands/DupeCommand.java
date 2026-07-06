@@ -10,11 +10,10 @@ import tech.ccat.cheattest.player.CPlayer;
 public class DupeCommand extends CCommand{
 
 
-    private Long dupeDelay;
+    private final long dupeDelay;
 
     protected DupeCommand(Main INSTANCE) {
         super(INSTANCE);
-        config = INSTANCE.getConfigManager();
         dupeDelay = config.getDupeDelay();
     }
 
@@ -33,7 +32,7 @@ public class DupeCommand extends CCommand{
             return true;
         }
         CPlayer cPlayer = INSTANCE.getPlayerManager().getCPlayer(player);
-        Long timePassed = System.currentTimeMillis() - cPlayer.getLastDupeMs();
+        long timePassed = System.currentTimeMillis() - cPlayer.getLastDupeMs();
         if(timePassed < dupeDelay){
             commandSender.sendMessage("§c请等待 " + (dupeDelay - timePassed)/1000 + " 秒!");
             return true;

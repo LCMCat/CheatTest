@@ -51,7 +51,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'de.tr7zw:item-nbt-api-plugin:2.11.3'
-    implementation 'org.yaml:snakeyaml:1.19'
 }
 
 tasks.withType(JavaCompile).configureEach {

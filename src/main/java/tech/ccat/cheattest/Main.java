@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import tech.ccat.cheattest.commands.CommandManager;
 import tech.ccat.cheattest.config.ConfigManager;
+import tech.ccat.cheattest.item.ItemRegistry;
 import tech.ccat.cheattest.modules.ModuleManager;
 import tech.ccat.cheattest.player.PlayerManager;
 
@@ -20,6 +21,8 @@ public class Main extends JavaPlugin {
     private CommandManager commandManager;
     @Getter
     private ModuleManager moduleManager;
+    @Getter
+    private ItemRegistry itemRegistry;
 //    private LuckPerms luckPerms;
     @Override
     public void onEnable(){
@@ -27,6 +30,7 @@ public class Main extends JavaPlugin {
         logger.warning("作弊测试插件, 仅供猫科服务器使用!");
 
         configManager = new ConfigManager(this);
+        itemRegistry = new ItemRegistry(configManager);
         playerManager = new PlayerManager(this);
         commandManager = new CommandManager(this);
         moduleManager = new ModuleManager(this);

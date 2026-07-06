@@ -18,7 +18,7 @@ public class IllegibleItemChecker extends CModule{
     protected IllegibleItemChecker(Main INSTANCE) {
         super(INSTANCE);
         IICCooldown = config.getIICCooldown();
-        if(config.isIICEnable()) INSTANCE.getServer().getScheduler().runTaskTimerAsynchronously(INSTANCE, this::IllegibleItemScheduler, 0 , IICCooldown);
+        if(config.isIICEnable()) INSTANCE.getServer().getScheduler().runTaskTimer(INSTANCE, this::IllegibleItemScheduler, 0 , IICCooldown);
     }
 
 

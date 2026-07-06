@@ -1,13 +1,13 @@
 package tech.ccat.cheattest.commands;
 
-import de.tr7zw.nbtapi.NBTItem;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import tech.ccat.cheattest.Main;
+import tech.ccat.cheattest.item.AbstractItem;
 import tech.ccat.cheattest.utils.InvUtils;
+
+import java.util.Optional;
 
 public class MythicCommand extends CCommand{
     protected MythicCommand(Main INSTANCE) {
@@ -32,11 +32,15 @@ public class MythicCommand extends CCommand{
             player.sendMessage("§c请输入参数!");
             return true;
         }
-        ItemStack itemStack = new ItemStack(Material.STICK, 1);
-        NBTItem nbt = new NBTItem(itemStack);
-        nbt.setString("ITEM_TYPE", args[0]);
-        itemStack = nbt.getItem();
-        InvUtils.SpawnItem(player, itemStack);
+        Optional<AbstractItem> item = INSTANCE.getItemRegistry().findByType(args[0]);
+        if (item.isEmpty()) {
+            player.sendMessage("§c未知的神秘物品类型!");
+            return true;
+        }
+        if (!InvUtils.addToFirstEmptySlot(player, item.get().createItemStack())) {
+            player.sendMessage("§c背包已满!");
+            return true;
+        }
         commandSender.sendMessage("§7你获取了一件神秘物品.");
 
         return true;
