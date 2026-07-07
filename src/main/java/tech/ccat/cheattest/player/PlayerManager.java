@@ -6,38 +6,37 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import tech.ccat.cheattest.Main;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class PlayerManager implements Listener {
 
     private Main INSTANCE;
-    private ArrayList<CPlayer> players;
+    private Map<UUID, CPlayer> players;
 
     public PlayerManager(Main INSTANCE){
         this.INSTANCE = INSTANCE;
         INSTANCE.getServer().getPluginManager().registerEvents(this, INSTANCE);
-        players = new ArrayList<>();
+        players = new HashMap<>();
+        INSTANCE.getServer().getOnlinePlayers().forEach(this::cachePlayer);
     }
 
     @EventHandler
     private void onLogin(PlayerLoginEvent event){
-        Player player = event.getPlayer();
-        if(!isPlayerCached(player))
-            players.add(new CPlayer(player.getName(), player.getUniqueId().toString()));
+        cachePlayer(event.getPlayer());
     }
 
     public CPlayer getCPlayer(Player player){
-        ArrayList<CPlayer> playerArrayList = players;
-        for (CPlayer cplayer: players) {
-            if(cplayer.getUuid().equals(player.getUniqueId().toString()))
-                return cplayer;
-        }
-        return null;
-
+        return players.computeIfAbsent(player.getUniqueId(), uuid -> new CPlayer(player.getName(), uuid.toString()));
     }
 
     public boolean isPlayerCached(Player player){
-        return getCPlayer(player) != null;
+        return players.containsKey(player.getUniqueId());
+    }
+
+    private void cachePlayer(Player player) {
+        players.putIfAbsent(player.getUniqueId(), new CPlayer(player.getName(), player.getUniqueId().toString()));
     }
 
 }

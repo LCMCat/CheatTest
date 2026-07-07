@@ -38,6 +38,14 @@ public class ConfigManager {
     private boolean MythicEndFluidEnable;
     @Getter
     private int MythicEndFluidMax;
+    @Getter
+    private boolean MythicGlassCage;
+    @Getter
+    private boolean MythicObsidianWall;
+    @Getter
+    private boolean MythicPullWeb;
+    @Getter
+    private boolean MythicObsidianCorroder;
 
     @Getter
     private boolean SuicideEnable;
@@ -114,8 +122,12 @@ public class ConfigManager {
         MythicCommand = config.getBoolean("Mythic.Command");
         MythicDestruction = config.getBoolean("Mythic.Destruction");
         MythicDrinker = config.getBoolean("Mythic.Drinker");
-        MythicEndFluidEnable = config.getBoolean("Mythic.EndFluid.Enable");
+        MythicEndFluidEnable = config.getBoolean("Mythic.EndFluid.Enable", true);
         MythicEndFluidMax = config.getInt("Mythic.EndFluid.Max");
+        MythicGlassCage = config.getBoolean("Mythic.GlassCage", true);
+        MythicObsidianWall = config.getBoolean("Mythic.ObsidianWall", true);
+        MythicPullWeb = config.getBoolean("Mythic.PullWeb", true);
+        MythicObsidianCorroder = config.getBoolean("Mythic.ObsidianCorroder", true);
 
         SuicideEnable = config.getBoolean("Suicide.Enable");
 

@@ -44,10 +44,12 @@ public class IllegibleItemChecker extends CModule{
         }
 
         //非法附魔物品
-        Map<Enchantment, Integer> enchantments = itemStack.getEnchantments();
-        for (Enchantment enchant: enchantments.keySet()) {
-            if(enchantments.get(enchant) > enchant.getMaxLevel()){
-                itemStack.addEnchantment(enchant, enchant.getMaxLevel());
+        if(config.isIICEnchantments()) {
+            Map<Enchantment, Integer> enchantments = itemStack.getEnchantments();
+            for (Enchantment enchant: enchantments.keySet()) {
+                if(enchantments.get(enchant) > enchant.getMaxLevel()){
+                    itemStack.addUnsafeEnchantment(enchant, enchant.getMaxLevel());
+                }
             }
         }
 

@@ -4,15 +4,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 import tech.ccat.cheattest.config.ConfigManager;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
 public class EndFluidItem extends AbstractItem {
-    public static final String TYPE = "ENDFLUID";
+    public static final String TYPE = "END_FLUID";
 
     private static final BlockFace[] FACES = {
             BlockFace.UP,
@@ -37,10 +41,44 @@ public class EndFluidItem extends AbstractItem {
 
     @Override
     public void onUse(ItemUseContext context) {
-        Location targetLocation = findTargetBlock(context.getPlayer(), 100, true);
-        if (targetLocation != null) {
-            clearConnectedFluids(targetLocation.getBlock(), config.getMythicEndFluidMax());
+        use(context.getPlayer());
+    }
+
+    public void use(Player player) {
+        clearConnectedFluids(findTargetFluid(player, 100), config.getMythicEndFluidMax());
+    }
+
+    private Block findTargetFluid(Player player, int maxDistance) {
+        Location eyeLocation = player.getEyeLocation();
+        Vector direction = eyeLocation.getDirection().normalize();
+
+        for (double distance = 0.0; distance <= maxDistance; distance += 0.25) {
+            Block block = eyeLocation.clone().add(direction.clone().multiply(distance)).getBlock();
+            if (block.isLiquid()) {
+                return block;
+            }
+            if (!block.isEmpty()) {
+                return findFluidStart(block);
+            }
         }
+        return null;
+    }
+
+    private Block findFluidStart(Block target) {
+        if (target == null) {
+            return null;
+        }
+        if (target.isLiquid()) {
+            return target;
+        }
+
+        for (BlockFace face : FACES) {
+            Block relative = target.getRelative(face);
+            if (relative.isLiquid()) {
+                return relative;
+            }
+        }
+        return null;
     }
 
     private void clearConnectedFluids(Block start, int maxBlocks) {
@@ -50,19 +88,18 @@ public class EndFluidItem extends AbstractItem {
 
         Queue<Block> queue = new ArrayDeque<>();
         Set<Long> visited = new HashSet<>();
+        List<Block> fluids = new ArrayList<>();
 
         queue.add(start);
         visited.add(blockKey(start));
 
-        int cleared = 0;
-        while (!queue.isEmpty() && cleared < maxBlocks) {
+        while (!queue.isEmpty() && fluids.size() < maxBlocks) {
             Block block = queue.poll();
             if (!block.isLiquid()) {
                 continue;
             }
 
-            block.setType(Material.AIR);
-            cleared++;
+            fluids.add(block);
 
             for (BlockFace face : FACES) {
                 Block next = block.getRelative(face);
@@ -72,6 +109,10 @@ public class EndFluidItem extends AbstractItem {
                     queue.add(next);
                 }
             }
+        }
+
+        for (Block block : fluids) {
+            block.setType(Material.AIR, false);
         }
     }
 

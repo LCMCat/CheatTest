@@ -16,6 +16,10 @@ public class ItemRegistry {
         register(new DestructionItem());
         register(new DrinkerItem());
         register(new EndFluidItem(config));
+        register(new GlassCageItem());
+        register(new ObsidianWallItem());
+        register(new PullWebItem());
+        register(new ObsidianCorroderItem());
     }
 
     public Collection<AbstractItem> getItems() {
@@ -40,6 +44,6 @@ public class ItemRegistry {
     }
 
     private String normalize(String type) {
-        return type.trim().toUpperCase(Locale.ROOT);
+        return type.replace("_", "").trim().toUpperCase(Locale.ROOT);
     }
 }

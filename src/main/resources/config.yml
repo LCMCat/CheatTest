@@ -37,10 +37,21 @@ Mythic:
   #Bucket of End Fluid, click to remove all connected liquids
   #NBT: End Fluid
   EndFluid:
-    ##DEPRECATED -- no longer work
-    Enable: false
+    Enable: true
     #Max search range
     Max: 500
+  #Stick of Glass Cage, aim at an entity to create a 5x5x3 glass cage
+  #NBT: GLASSCAGE
+  GlassCage: true
+  #Stick of Obsidian Wall, creates a 5x5x1 wall 3 blocks ahead
+  #NBT: OBSIDIANWALL
+  ObsidianWall: true
+  #Pull Web, aim at an entity to pull it toward you
+  #NBT: PULLWEB
+  PullWeb: true
+  #Stick of Obsidian Corroder, converts the first targeted obsidian block to sand
+  #NBT: OBSIDIANCORRODER
+  ObsidianCorroder: true
 
 #Suicide Feature
 Suicide:

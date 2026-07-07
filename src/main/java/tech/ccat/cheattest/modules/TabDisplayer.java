@@ -6,15 +6,23 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import tech.ccat.cheattest.Main;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class TabDisplayer extends CModule{
-    private ProtocolManager protocolManager;
+    private final ProtocolManager protocolManager;
+    private final Map<UUID, BukkitTask> tasks = new HashMap<>();
 
     private final int TabRefreshCooldown;
 
@@ -29,40 +37,66 @@ public class TabDisplayer extends CModule{
     private void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
         if(!config.isTabEnable()) return;
-        new BukkitRunnable(){
+        cancelTask(player);
+        BukkitTask task = new BukkitRunnable(){
 
             public void run() {
+                if (!player.isOnline()) {
+                    cancel();
+                    tasks.remove(player.getUniqueId());
+                    return;
+                }
                 updateTablist(player);
                 updateTab(player);
             }
         }.runTaskTimer(INSTANCE, 0L, TabRefreshCooldown);
+        tasks.put(player.getUniqueId(), task);
+    }
+
+    @EventHandler
+    private void onPlayerQuit(PlayerQuitEvent event) {
+        cancelTask(event.getPlayer());
     }
 
 
     public void updateTablist(Player p) {
         String header = this.FixColor(config.getTabHeader());
-        header = PlaceholderAPI.setPlaceholders(p, header);
+        header = applyPlaceholders(p, header);
         String footer = this.FixColor(config.getTabFooter());
-        footer = PlaceholderAPI.setPlaceholders(p, footer);
+        footer = applyPlaceholders(p, footer);
         PacketContainer pc = this.protocolManager.createPacket(PacketType.Play.Server.PLAYER_LIST_HEADER_FOOTER);
         pc.getChatComponents().write(0, WrappedChatComponent.fromText(header)).write(1, WrappedChatComponent.fromText(footer));
         try {
             this.protocolManager.sendServerPacket(p, pc);
         }
         catch (Exception ex) {
-            INSTANCE.logger.warning("TabDisplayer 出了点问题: " + ex.getCause().toString());
+            INSTANCE.logger.warning("TabDisplayer failed: " + ex.getMessage());
         }
     }
 
     public void updateTab(Player p) {
         String Text = config.getTabPlayerName();
-        Text = PlaceholderAPI.setPlaceholders(p, Text);
+        Text = applyPlaceholders(p, Text);
         String s = ChatColor.translateAlternateColorCodes('&', Text);
         p.setPlayerListName(s);
     }
 
     private String FixColor(String string) {
-        return string.replace('&', '§');
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    private String applyPlaceholders(Player player, String text) {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            return PlaceholderAPI.setPlaceholders(player, text);
+        }
+        return text;
+    }
+
+    private void cancelTask(Player player) {
+        BukkitTask task = tasks.remove(player.getUniqueId());
+        if (task != null) {
+            task.cancel();
+        }
     }
 
 }

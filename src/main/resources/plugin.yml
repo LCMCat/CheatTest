@@ -4,6 +4,10 @@ description: A plugin for CheatTest Server.
 author: CMCat
 main: tech.ccat.cheattest.Main
 api-version: 1.12
+depend:
+  - ProtocolLib
+softdepend:
+  - PlaceholderAPI
 commands:
   dupe:
     description: Dupe items in main hand

@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 import tech.ccat.cheattest.Main;
 import tech.ccat.cheattest.player.CPlayer;
 
@@ -38,6 +39,10 @@ public class DupeCommand extends CCommand{
             return true;
         }
         ItemStack itemStack = player.getInventory().getItemInMainHand();
+        if(itemStack == null || itemStack.getType() == Material.AIR){
+            commandSender.sendMessage("§c请手持一个物品!");
+            return true;
+        }
         itemStack.setAmount(64);
         cPlayer.updateDupeTimer();
         return true;
